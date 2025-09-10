@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  edgetts-api:
+    build: .
+    container_name: edgetts-api
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./temp_audio:/tmp/audio  # Optional: pentru debugging
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
